@@ -9,16 +9,21 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [resetLink, setResetLink] = useState('');
   const { showToast } = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setResetLink('');
     setIsLoading(true);
 
     try {
       const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/forgotpassword`, { email });
       showToast(res.data?.message || 'Password reset link sent to your email!', 'success');
+      if (res.data?.previewUrl) {
+        setResetLink(res.data.previewUrl);
+      }
       setEmail('');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to send reset link. Please try again.');
@@ -35,6 +40,15 @@ const ForgotPassword = () => {
           <h2>Forgot Password</h2>
           <p>Enter your email to receive a password reset link</p>
         </div>
+
+        {resetLink && (
+          <div style={{ background: '#ecfdf5', border: '1px solid #34d399', color: '#065f46', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.9rem', textAlign: 'center' }}>
+            <p style={{ margin: '0 0 0.5rem 0', fontWeight: 'bold' }}>Testing Link Generated:</p>
+            <a href={resetLink} style={{ color: '#059669', wordBreak: 'break-all', fontWeight: '600', textDecoration: 'underline' }}>
+              Click here to reset your password
+            </a>
+          </div>
+        )}
 
         <form className="auth-form" onSubmit={handleSubmit}>
           {error && (

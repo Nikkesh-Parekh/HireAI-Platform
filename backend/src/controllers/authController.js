@@ -119,10 +119,11 @@ exports.forgotPassword = async (req, res) => {
         if (emailResult.success) {
             res.status(200).json({ message: 'Email sent successfully', previewUrl: emailResult.previewUrl });
         } else {
-            user.resetPasswordToken = undefined;
-            user.resetPasswordExpire = undefined;
-            await user.save({ validateBeforeSave: false });
-            res.status(500).json({ message: 'Email could not be sent' });
+            // Render Free Tier blocks SMTP outbound port 587. Keep token active and return URL as preview fallback for testing/validation.
+            res.status(200).json({ 
+                message: 'Password reset link generated! (SMTP is blocked on Render free tier, copy the link below)', 
+                previewUrl: resetUrl 
+            });
         }
     } catch (error) {
         res.status(500).json({ message: error.message });
