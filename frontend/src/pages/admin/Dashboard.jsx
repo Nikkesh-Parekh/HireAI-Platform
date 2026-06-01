@@ -14,10 +14,10 @@ const Dashboard = () => {
   useEffect(() => {
     fetchDashboardData();
 
-    // Auto-reload browser page every 15 seconds
+    // Auto-refresh dashboard stats silently in the background every 10 seconds
     const interval = setInterval(() => {
-      window.location.reload();
-    }, 15000);
+      fetchDashboardData();
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);

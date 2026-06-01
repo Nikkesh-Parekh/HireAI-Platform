@@ -25,15 +25,13 @@ const CandidateJobs = () => {
   useEffect(() => {
     fetchJobs();
 
-    // Auto-reload jobs page every 15 seconds ONLY if apply modal is not open
+    // Auto-refresh jobs list silently in the background every 10 seconds
     const interval = setInterval(() => {
-      if (!selectedJob) {
-        window.location.reload();
-      }
-    }, 15000);
+      fetchJobs();
+    }, 10000);
 
     return () => clearInterval(interval);
-  }, [selectedJob]);
+  }, []);
 
   const fetchJobs = async () => {
     try {

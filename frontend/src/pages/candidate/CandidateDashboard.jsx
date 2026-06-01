@@ -13,10 +13,10 @@ const CandidateDashboard = () => {
   useEffect(() => {
     fetchApplications();
 
-    // Auto-reload candidate page every 15 seconds to sync status changes
+    // Auto-refresh candidate applications silently in the background every 10 seconds
     const interval = setInterval(() => {
-      window.location.reload();
-    }, 15000);
+      fetchApplications();
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);

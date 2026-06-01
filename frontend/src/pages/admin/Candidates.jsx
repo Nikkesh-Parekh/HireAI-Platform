@@ -30,10 +30,10 @@ const Candidates = () => {
   useEffect(() => {
     fetchCandidates();
 
-    // Auto-reload browser page every 15 seconds for a complete page refresh
+    // Auto-refresh candidate list silently in the background every 10 seconds
     const interval = setInterval(() => {
-      window.location.reload();
-    }, 15000);
+      fetchCandidates();
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);
