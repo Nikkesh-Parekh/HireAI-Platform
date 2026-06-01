@@ -23,7 +23,7 @@ const CandidateDashboard = () => {
 
   const fetchApplications = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/candidates/me');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/candidates/me`);
       if (res.data.success) {
         setApplications(res.data.data);
       }

@@ -42,8 +42,8 @@ const CandidateProfilePage = () => {
   const fetchProfileAndApplications = async () => {
     try {
       const [appsRes, profileRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/candidates/me'),
-        axios.get('http://localhost:5000/api/auth/profile').catch(() => null)
+        axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/candidates/me`),
+        axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/profile`).catch(() => null)
       ]);
 
       if (appsRes.data.success) {
@@ -167,7 +167,7 @@ const CandidateProfilePage = () => {
     }
 
     try {
-      const res = await axios.put('http://localhost:5000/api/auth/profile', submitData, {
+      const res = await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/profile`, submitData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

@@ -40,7 +40,7 @@ const Candidates = () => {
 
   const fetchCandidates = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/candidates');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/candidates`);
       if (res.data.success) {
         const grouped = { applied: [], assessment: [], interview: [], hired: [] };
         res.data.data.forEach(c => {
@@ -80,7 +80,7 @@ const Candidates = () => {
     }
 
     try {
-      await axios.put(`http://localhost:5000/api/candidates/${candId}/score`, { [scoreType]: numVal });
+      await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/candidates/${candId}/score`, { [scoreType]: numVal });
       fetchCandidates();
       setScoreModal({ open: false, candId: null, fromCol: null, scoreType: '', value: '' });
     } catch (err) {
@@ -126,7 +126,7 @@ const Candidates = () => {
     const toCol = columnOrder[currentIndex + 1];
 
     try {
-      await axios.put(`http://localhost:5000/api/candidates/${candId}/advance`, { status: toCol });
+      await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/candidates/${candId}/advance`, { status: toCol });
       fetchCandidates();
     } catch (err) {
       console.error("Failed to advance candidate via API", err);
@@ -209,7 +209,7 @@ const Candidates = () => {
 
     try {
       // Assign the slot to the candidate
-      await axios.put(`http://localhost:5000/api/candidates/${candId}/schedule`, { date, startTime, endTime });
+      await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/candidates/${candId}/schedule`, { date, startTime, endTime });
       
       // And move them to the next stage
       await moveForward(candId, fromCol);

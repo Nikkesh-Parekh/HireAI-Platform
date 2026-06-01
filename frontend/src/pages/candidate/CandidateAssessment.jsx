@@ -128,7 +128,7 @@ const CandidateAssessment = () => {
   const submitScore = async (finalScore) => {
     setSubmitting(true);
     try {
-      await axios.put(`http://localhost:5000/api/candidates/${id}/score`, {
+      await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/candidates/${id}/score`, {
         technical: finalScore
       });
     } catch (err) {

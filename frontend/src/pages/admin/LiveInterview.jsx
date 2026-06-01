@@ -63,7 +63,7 @@ const LiveInterview = () => {
     startVideo();
 
     // Socket Connection Setup
-    socketRef.current = io('http://localhost:5000');
+    socketRef.current = io(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}`);
     socketRef.current.emit('join-room', { roomId: id, role: 'Interviewer' });
 
     socketRef.current.on('code-update', (newCode) => {
@@ -101,7 +101,7 @@ const LiveInterview = () => {
 
   const fetchCandidate = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/candidates/${id}`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/candidates/${id}`);
       if (res.data.success) {
         setCandidate(res.data.data);
       }
@@ -131,7 +131,7 @@ const LiveInterview = () => {
   const handleDecision = async (decision) => {
     setSubmittingDecision(true);
     try {
-      const res = await axios.put(`http://localhost:5000/api/candidates/${id}/decision`, { decision });
+      const res = await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/candidates/${id}/decision`, { decision });
       if (res.data.success) {
         showToast(`Success: ${decision === 'accept' ? 'Offer' : 'Rejection'} sent to ${candidate.email}!`, 'success');
         navigate('/admin/candidates');

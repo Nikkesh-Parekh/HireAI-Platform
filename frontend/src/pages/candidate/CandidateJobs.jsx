@@ -39,9 +39,9 @@ const CandidateJobs = () => {
     try {
       // Fetch jobs, applications and global profile simultaneously
       const [jobsRes, appsRes, profileRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/jobs'),
-        axios.get('http://localhost:5000/api/candidates/me'),
-        axios.get('http://localhost:5000/api/auth/profile').catch(() => null)
+        axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/jobs`),
+        axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/candidates/me`),
+        axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/profile`).catch(() => null)
       ]);
 
       if (jobsRes.data.success) {
@@ -106,7 +106,7 @@ const CandidateJobs = () => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/candidates', submitData, {
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/candidates`, submitData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       alert(`Successfully applied for ${selectedJob.title}!`);

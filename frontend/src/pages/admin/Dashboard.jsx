@@ -25,8 +25,8 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
       const [jobsRes, candsRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/jobs'),
-        axios.get('http://localhost:5000/api/candidates')
+        axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/jobs`),
+        axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/candidates`)
       ]);
 
       if (jobsRes.data.success) setJobs(jobsRes.data.data);

@@ -19,7 +19,7 @@ const Jobs = () => {
 
   const fetchJobs = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/jobs');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/jobs`);
       if (res.data.success) {
         setJobs(res.data.data);
       }
@@ -31,7 +31,7 @@ const Jobs = () => {
   const handleDelete = async (id) => {
     if(window.confirm("Are you sure you want to delete this job posting?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/jobs/${id}`);
+        await axios.delete(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/jobs/${id}`);
         fetchJobs();
       } catch (err) {
         console.error("Failed to delete job", err);
@@ -41,7 +41,7 @@ const Jobs = () => {
 
   const handleToggleStatus = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/jobs/${id}/status`);
+      await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/jobs/${id}/status`);
       fetchJobs();
     } catch (err) {
       console.error("Failed to toggle status", err);
@@ -91,9 +91,9 @@ const Jobs = () => {
     
     try {
       if (editingJobId) {
-        await axios.put(`http://localhost:5000/api/jobs/${editingJobId}`, payload);
+        await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/jobs/${editingJobId}`, payload);
       } else {
-        await axios.post('http://localhost:5000/api/jobs', payload);
+        await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/jobs`, payload);
       }
       fetchJobs();
       setShowModal(false);

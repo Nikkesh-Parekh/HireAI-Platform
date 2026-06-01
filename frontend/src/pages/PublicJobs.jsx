@@ -22,7 +22,7 @@ const PublicJobs = () => {
 
   const fetchJobs = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/jobs');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/jobs`);
       if (res.data.success) {
         // Only display active jobs
         setJobs(res.data.data.filter(job => job.status === 'Active'));
